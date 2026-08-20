@@ -352,6 +352,27 @@
     html{scroll-behavior:auto}
   }
 </style>
+<!-- Google tag (gtag.js) - Google Ads -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17891030224"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  /* LGPD: nada é rastreado antes do aceite */
+  gtag('consent','default',{
+    'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied',
+    'analytics_storage':'denied','wait_for_update':500
+  });
+  try{
+    if (localStorage.getItem('dpr_cookies') === 'aceito') {
+      gtag('consent','update',{
+        'ad_storage':'granted','ad_user_data':'granted',
+        'ad_personalization':'granted','analytics_storage':'granted'});
+    }
+  }catch(e){}
+  gtag('js', new Date());
+  gtag('config','AW-17891030224');
+</script>
+<!-- /Google tag -->
 </head>
 <body>
 
@@ -712,5 +733,62 @@
   });
 })();
 </script>
+<!-- Aviso de cookies + conversoes -->
+<style>
+  #dprCookies{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;display:none;
+    background:#FCF9F3;border:1px solid #E7DFCC;border-radius:6px;
+    box-shadow:0 22px 50px -26px rgba(10,28,48,.45);padding:18px 20px;
+    font:14px/1.6 'Inter',system-ui,sans-serif;color:#31404F;max-width:860px;margin:0 auto}
+  #dprCookies.on{display:block}
+  #dprCookies p{margin:0 0 14px}
+  #dprCookies a{color:#9E7C41}
+  #dprCookies .bts{display:flex;gap:10px;flex-wrap:wrap}
+  #dprCookies button{cursor:pointer;font:600 14px 'Inter',system-ui,sans-serif;
+    padding:10px 18px;border-radius:4px;border:1px solid #D9CFB8;background:#fff;color:#16212E}
+  #dprCookies button.ok{background:#BE9A5A;border-color:#BE9A5A;color:#0A1C30}
+  #dprCookies button:hover{filter:brightness(.97)}
+  @media(max-width:520px){#dprCookies button{flex:1 1 100%}}
+</style>
+<div id="dprCookies" role="dialog" aria-label="Aviso de cookies">
+  <p>Usamos cookies para entender como o site é usado e para medir a eficiência dos nossos anúncios.
+     Você pode aceitar ou seguir apenas com os cookies essenciais.
+     <a href="/politica-de-privacidade.html">Leia a Política de Privacidade</a>.</p>
+  <div class="bts">
+    <button class="ok" id="dprOk">Aceitar</button>
+    <button id="dprNo">Somente essenciais</button>
+  </div>
+</div>
+<script>
+(function(){
+  var cx = document.getElementById('dprCookies');
+  function guardar(v){ try{ localStorage.setItem('dpr_cookies', v); }catch(e){} }
+  function ler(){ try{ return localStorage.getItem('dpr_cookies'); }catch(e){ return null; } }
+  if (!ler() && cx) cx.classList.add('on');
+  var ok = document.getElementById('dprOk'), no = document.getElementById('dprNo');
+  if (ok) ok.addEventListener('click', function(){
+    guardar('aceito');
+    if (typeof gtag === 'function') gtag('consent','update',{
+      'ad_storage':'granted','ad_user_data':'granted',
+      'ad_personalization':'granted','analytics_storage':'granted'});
+    if (cx) cx.classList.remove('on');
+  });
+  if (no) no.addEventListener('click', function(){
+    guardar('essenciais');
+    if (cx) cx.classList.remove('on');
+  });
+
+  /* Conversão: clique no botão de WhatsApp e em telefone */
+  function conv(destino){
+    if (typeof gtag !== 'function') return;
+    gtag('event','conversion',{'send_to': destino});
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target; if (!t || !t.closest) return;
+    if (t.closest('.wa-link, .btn.wa, a[href*="wa.me"], a[href*="api.whatsapp.com"]')) conv('AW-17891030224/-TVfCMLU-uQcENDpjdNC');
+    else if (t.closest('a[href^="tel:"]')) conv('AW-17891030224/SV-YCMXU-uQcENDpjdNC');
+  }, true);
+})();
+</script>
+<!-- /Aviso de cookies + conversoes -->
 </body>
 </html>
