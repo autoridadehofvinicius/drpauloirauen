@@ -1187,14 +1187,28 @@
 </script>
 <!-- /Aviso de cookies + conversoes -->
 <script>
-/* Video de apresentacao: so baixa os 6 MB quando alguem clica em assistir.
-   Carregar no load derrubaria o tempo de abertura no celular — e o site e
-   destino de campanha paga, entao pagina lenta e clique desperdicado. */
+/* Video de apresentacao.
+   Na abertura da pagina nao baixa NADA (preload=none): o site e destino de
+   campanha paga e carregar video no load desperdicaria clique.
+   Mas quando a secao entra na tela, o video comeca a se preparar sozinho —
+   assim, quando a pessoa clica, ja esta pronto e nao ha espera. */
 (function(){
   var box = document.getElementById("vplayer");
   var vid = document.getElementById("vapres");
   var bt  = document.getElementById("vbtn");
   if (!box || !vid || !bt) return;
+
+  /* aquece o video quando a secao aparece, antes do clique */
+  if ("IntersectionObserver" in window){
+    var obs = new IntersectionObserver(function(ent){
+      if (ent[0].isIntersecting){
+        vid.preload = "auto";
+        try { vid.load(); } catch(e){}
+        obs.disconnect();
+      }
+    }, {rootMargin: "300px"});
+    obs.observe(box);
+  }
 
   bt.addEventListener("click", function(){
     box.classList.add("on");
