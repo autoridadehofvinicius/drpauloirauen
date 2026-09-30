@@ -912,9 +912,14 @@
   "use strict";
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var WHATS = "5544991230861";
-  var link = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent("Ola! Vim pelo site do Dr. Paulo Rauen e gostaria de agendar uma avaliacao de retina.");
-  document.querySelectorAll(".wa-link,.btn.wa").forEach(function(el){ el.setAttribute("href", link); });
+  /* WhatsApp: todo botao passa pelo Tintim, que registra a conversa e
+     redireciona para o numero. A mensagem inicial e definida la dentro. */
+  var link = "https://tintim.link/whatsapp/d0af48fd-9857-4bee-ac45-9de7305c6c98/d04a41b3-66c7-48fb-8e23-320336a2de39";
+  document.querySelectorAll(".wa-link,.btn.wa").forEach(function(el){
+    el.setAttribute("href", link);
+    el.setAttribute("target", "_blank");
+    el.setAttribute("rel", "noopener");
+  });
 
   /* ===== Checklist interativo — Índice de urgência (gauge de precisão) ===== */
   (function(){
@@ -1145,7 +1150,7 @@
   }
   document.addEventListener('click', function(e){
     var t = e.target; if (!t || !t.closest) return;
-    if (t.closest('.wa-link, .btn.wa, a[href*="wa.me"], a[href*="api.whatsapp.com"]')) conv('AW-17891030224/-TVfCMLU-uQcENDpjdNC');
+    if (t.closest('.wa-link, .btn.wa, a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href*="tintim.link"]')) conv('AW-17891030224/-TVfCMLU-uQcENDpjdNC');
     else if (t.closest('a[href^="tel:"]')) conv('AW-17891030224/SV-YCMXU-uQcENDpjdNC');
   }, true);
 })();
